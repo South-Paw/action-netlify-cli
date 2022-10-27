@@ -1,0 +1,113 @@
+name: Benchmark Actions
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  deploy-draft-original:
+    name: draft via netlify/actions/cli@master
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate HTML document
+        run: |
+          mkdir -p example
+          echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
+
+      - name: Deploy draft to Netlify
+        uses: netlify/actions/cli@master
+        id: netlify
+        with:
+          args: 'deploy --dir \"./example\" --message \"draft [${{ github.sha }}]\"'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_OLD }}
+
+      - name: Action outputs
+        run: |
+          echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
+          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
+          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
+          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
+
+  deploy-prod-original:
+    name: production via netlify/actions/cli@master
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate HTML document
+        run: |
+          mkdir -p example
+          echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
+
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@master
+        id: netlify
+        with:
+          args: 'deploy --prod --dir \"./example\" --message \"production [${{ github.sha }}]\"'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_OLD }}
+
+      - name: Action outputs
+        run: |
+          echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
+          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
+          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
+          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
+
+  deploy-draft-new:
+    name: draft via South-Paw/action-netlify-cli@main
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-draft-original
+      - deploy-prod-original
+    steps:
+      - name: Generate HTML document
+        run: |
+          mkdir -p example
+          echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
+
+      - name: Deploy draft to Netlify
+        uses: South-Paw/action-netlify-cli@main
+        id: netlify
+        with:
+          args: 'deploy --dir \"./example\" --message \"draft [${{ github.sha }}]\"'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_NEW }}
+
+      - name: Action outputs
+        run: |
+          echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
+          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
+          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
+          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
+
+  deploy-prod-new:
+    name: production via South-Paw/action-netlify-cli@main
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-draft-original
+      - deploy-prod-original
+    steps:
+      - name: Generate HTML document
+        run: |
+          mkdir -p example
+          echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
+
+      - name: Deploy to Netlify
+        uses: South-Paw/action-netlify-cli@main
+        id: netlify
+        with:
+          args: 'deploy --prod --dir \"./example\" --message \"production [${{ github.sha }}]\"'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_NEW }}
+
+      - name: Action outputs
+        run: |
+          echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
+          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
+          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
+          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
