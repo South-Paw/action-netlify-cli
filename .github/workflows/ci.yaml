@@ -1,4 +1,4 @@
-name: Benchmark Actions
+name: CI
 
 on:
   push:
