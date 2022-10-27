@@ -7,4 +7,6 @@ set -e
 OUTPUT=$(bash -c "npx netlify-cli $*" | tr '\n' ' ')
 set +e
 
-echo "NETLIFY_OUTPUT=$(echo "$OUTPUT")" >> $GITHUB_OUTPUT
+NETLIFY_OUPUT=$(echo "$OUTPUT")
+
+echo "NETLIFY_OUTPUT=$NETLIFY_OUPUT" >> $GITHUB_OUTPUT
