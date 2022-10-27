@@ -2,7 +2,7 @@ name: "Netlify CLI"
 description: "Wraps the Netlify CLI and offers access to deploy outputs"
 author: "Alex Gabites <https://github.com/South-Paw>"
 branding:
-  color: blue
+  color: purple
   icon: cloud
 inputs:
   args:
