@@ -82,3 +82,11 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}
 ```
+
+## Issues and Bugs
+
+If you find any, please report them [here](https://github.com/South-Paw/action-netlify-cli/issues) so they can be squashed.
+
+## License
+
+MIT, see the [LICENSE](https://github.com/South-Paw/awesome-gatsby-starter/blob/master/LICENSE) file.
