@@ -72,7 +72,7 @@ jobs:
         uses: South-Paw/action-netlify-cli@main
         id: netlify
         with:
-          args: 'deploy --dir \"./example\" --message \"draft [${{ github.sha }}]\"'
+          args: 'deploy --json --dir \"./example\" --message \"draft [${{ github.sha }}]\"'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_NEW }}
@@ -100,7 +100,7 @@ jobs:
         uses: South-Paw/action-netlify-cli@main
         id: netlify
         with:
-          args: 'deploy --prod --dir \"./example\" --message \"production [${{ github.sha }}]\"'
+          args: 'deploy --json --prod --dir \"./example\" --message \"production [${{ github.sha }}]\"'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_NEW }}
