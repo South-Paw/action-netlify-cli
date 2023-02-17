@@ -33,7 +33,7 @@ jobs:
       # build your site for deployment... in this case the `public` folder is being deployed
 
       - name: Publish
-        uses: South-Paw/action-netlify-cli@v1
+        uses: South-Paw/action-netlify-cli@1.0.1
         id: netlify
         with:
           # be sure to escape any double quotes with a backslash and note that the --json
@@ -64,7 +64,7 @@ jobs:
       # ... steps to build your site for deployment
 
       - name: Deploy to Netlify
-        uses: South-Paw/action-netlify-cli@v1
+        uses: South-Paw/action-netlify-cli@1.0.1
         id: netlify
         with:
           args: deploy --json --prod --dir './public' --message 'production [${{ github.sha }}]'
