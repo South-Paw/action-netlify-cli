@@ -11,13 +11,16 @@ jobs:
     name: draft
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Generate HTML document
         run: |
           mkdir -p example
           echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
 
       - name: Deploy draft to Netlify
-        uses: South-Paw/action-netlify-cli@main
+        uses: ./
         id: netlify
         with:
           args: 'deploy --json --dir \"./example\" --message \"draft [${{ github.sha }}]\"'
@@ -36,13 +39,16 @@ jobs:
     name: production
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Generate HTML document
         run: |
           mkdir -p example
           echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
 
       - name: Deploy to Netlify
-        uses: South-Paw/action-netlify-cli@main
+        uses: ./
         id: netlify
         with:
           args: 'deploy --prod --json --dir \"./example\" --message \"production [${{ github.sha }}]\"'

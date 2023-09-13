@@ -58,19 +58,22 @@ jobs:
           echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
 
   deploy-draft-new:
-    name: draft via South-Paw/action-netlify-cli@main
+    name: draft via South-Paw/action-netlify-cli
     runs-on: ubuntu-latest
     needs:
       - deploy-draft-original
       - deploy-prod-original
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Generate HTML document
         run: |
           mkdir -p example
           echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
 
       - name: Deploy draft to Netlify
-        uses: South-Paw/action-netlify-cli@main
+        uses: ./
         id: netlify
         with:
           args: 'deploy --json --dir \"./example\" --message \"draft [${{ github.sha }}]\"'
@@ -86,19 +89,22 @@ jobs:
           echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
 
   deploy-prod-new:
-    name: production via South-Paw/action-netlify-cli@main
+    name: production via South-Paw/action-netlify-cli
     runs-on: ubuntu-latest
     needs:
       - deploy-draft-original
       - deploy-prod-original
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Generate HTML document
         run: |
           mkdir -p example
           echo -e "<pre>$(date -u)\n$GITHUB_SHA\n$GITHUB_REF</pre>" > example/index.html
 
       - name: Deploy to Netlify
-        uses: South-Paw/action-netlify-cli@main
+        uses: ./
         id: netlify
         with:
           args: 'deploy --json --prod --dir \"./example\" --message \"production [${{ github.sha }}]\"'
