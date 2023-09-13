@@ -1,5 +1,5 @@
 name: "Netlify CLI"
-description: "Wraps the Netlify CLI and offers access to deploy outputs"
+description: "Fast Netlify CLI wrapper with output"
 author: "Alex Gabites <https://github.com/South-Paw>"
 branding:
   color: purple
@@ -18,12 +18,3 @@ outputs:
   NETLIFY_OUTPUT:
     description: "Raw Netlify CLI output message"
     value: ${{ steps.script.outputs.NETLIFY_OUTPUT }}
-  NETLIFY_LOGS_URL:
-    description: "URL to Netlify deployment logs"
-    value: ${{ fromJson(steps.script.outputs.NETLIFY_OUTPUT).logs }}
-  NETLIFY_DRAFT_URL:
-    description: "URL to draft site"
-    value: ${{ fromJson(steps.script.outputs.NETLIFY_OUTPUT).deploy_url }}
-  NETLIFY_PROD_URL:
-    description: "URL to production site"
-    value: ${{ fromJson(steps.script.outputs.NETLIFY_OUTPUT).url }}
