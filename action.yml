@@ -1,5 +1,5 @@
 name: "Netlify CLI"
-description: "Wraps the Netlify CLI and offers access to deploy outputs"
+description: "Fast Netlify CLI wrapper with output"
 author: "Alex Gabites <https://github.com/South-Paw>"
 branding:
   color: purple
