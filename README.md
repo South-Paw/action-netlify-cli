@@ -16,9 +16,6 @@ This action usually completes in under a minute (and in best cases, 30s).
 The following outputs will be available from a step that uses this action:
 
 - `NETLIFY_OUTPUT`, the full stdout from the run of the `netlify` command
-- `NETLIFY_LOGS_URL`, the URL where the logs from the deploy can be found
-- `NETLIFY_DRAFT_URL`, the URL of the draft site that Netlify provides
-- `NETLIFY_PROD_URL`, the URL of the "real" site, set only if `--prod` was passed
 
 ## Recipes
 
@@ -33,11 +30,10 @@ jobs:
       # build your site for deployment... in this case the `public` folder is being deployed
 
       - name: Publish
-        uses: South-Paw/action-netlify-cli@1.0.1
+        uses: South-Paw/action-netlify-cli@v2
         id: netlify
         with:
-          # be sure to escape any double quotes with a backslash and note that the --json
-          # flag has been passed when deploying - if you want the outputs to work you'll need to include it
+          # be sure to escape any double quotes with a backslash
           args: 'deploy --json --dir \"./public\" --message \"draft [${{ github.sha }}]\"'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -64,9 +60,10 @@ jobs:
       # ... steps to build your site for deployment
 
       - name: Deploy to Netlify
-        uses: South-Paw/action-netlify-cli@1.0.1
+        uses: South-Paw/action-netlify-cli@v2
         id: netlify
         with:
+          # note that the --json flag has been passed so we can parse outputs
           args: deploy --json --prod --dir './public' --message 'production [${{ github.sha }}]'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -80,7 +77,40 @@ jobs:
           step: finish
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}
+          env_url: ${{ fromJson(steps.netlify.outputs.NETLIFY_OUTPUT).url }}
+```
+
+### Parse `--json` flag
+
+```yml
+on: [push]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # ... steps to build your site for deployment
+
+      - name: Deploy to Netlify
+        uses: South-Paw/action-netlify-cli@v2
+        id: netlify
+        with:
+          # note that the --json flag has been passed so we can parse outputs
+          args: deploy --json --prod --dir './public' --message 'production [${{ github.sha }}]'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # You can parse the `NETLIFY_OUTPUT` output with `fromJson` function for the following information:
+      - name: Parse NETLIFY_OUTPUT JSON
+        run: |
+          echo "The URL where the logs from the deploy can be found"
+          echo "${{ fromJson(steps.netlify.outputs.NETLIFY_OUTPUT).logs }}"
+          echo ""
+          echo "the URL of the draft site that Netlify provides"
+          echo "${{ fromJson(steps.netlify.outputs.NETLIFY_OUTPUT).deploy_url }}"
+          echo ""
+          echo "the URL of the "real" site, set only if `--prod` was passed"
+          echo "${{ fromJson(steps.netlify.outputs.NETLIFY_OUTPUT).url }}"
 ```
 
 ## Issues and Bugs

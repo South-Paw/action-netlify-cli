@@ -31,9 +31,6 @@ jobs:
       - name: Action outputs
         run: |
           echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
-          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
-          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
-          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
 
   deploy-prod-new:
     name: production
@@ -59,6 +56,3 @@ jobs:
       - name: Action outputs
         run: |
           echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
-          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
-          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
-          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"

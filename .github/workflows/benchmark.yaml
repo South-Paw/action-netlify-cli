@@ -28,9 +28,6 @@ jobs:
       - name: Action outputs
         run: |
           echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
-          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
-          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
-          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
 
   deploy-prod-original:
     name: production via netlify/actions/cli@master
@@ -53,9 +50,6 @@ jobs:
       - name: Action outputs
         run: |
           echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
-          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
-          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
-          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
 
   deploy-draft-new:
     name: draft via South-Paw/action-netlify-cli
@@ -84,9 +78,6 @@ jobs:
       - name: Action outputs
         run: |
           echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
-          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
-          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
-          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
 
   deploy-prod-new:
     name: production via South-Paw/action-netlify-cli
@@ -115,6 +106,3 @@ jobs:
       - name: Action outputs
         run: |
           echo "NETLIFY_OUTPUT: ${{ steps.netlify.outputs.NETLIFY_OUTPUT }}"
-          echo "NETLIFY_LOGS_URL: ${{ steps.netlify.outputs.NETLIFY_LOGS_URL }}"
-          echo "NETLIFY_DRAFT_URL: ${{ steps.netlify.outputs.NETLIFY_DRAFT_URL }}"
-          echo "NETLIFY_PROD_URL: ${{ steps.netlify.outputs.NETLIFY_PROD_URL }}"
